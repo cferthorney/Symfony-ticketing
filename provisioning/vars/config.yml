@@ -43,8 +43,8 @@ nginx_remove_default_vhost: true
 nginx_hosts:
   - server_name: "ticketdev.local"
     root: "/var/www/html/web"
-    index: "app.php index.php index.html index.htm"
     is_php: true
+    is_dev: true
 
 # PHP
 php_packages:

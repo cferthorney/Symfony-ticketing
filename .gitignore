@@ -9,3 +9,7 @@
 /composer.phar
 /vendor/
 /web/bundles/
+
+#Ignoring additional Vagrant and Ansible cruft
+/.vagrant
+/provisioning/roles

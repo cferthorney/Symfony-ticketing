@@ -1,0 +1,13 @@
+default:
+  autoload:
+    '': %paths.base%/src/TicketBundle/Tests/features
+  suites:
+    default:
+      paths: [ %paths.base%/src/TicketBundle/Tests/features ]
+      context: [ Cferthorney\TicketBundle\Tests\Features\FeatureContext ]
+  extensions:
+    Behat\Symfony2Extension: ~
+    Behat\MinkExtension:
+      sessions:
+        default:
+          symfony2: ~

@@ -11,3 +11,7 @@
     path: roles/
   - src: geerlingguy.composer
     path: roles/
+  - src: geerlingguy.php-xdebug
+    path: roles/
+  - src: geerlingguy.php-xhprof
+    path: roles/

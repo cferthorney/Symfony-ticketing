@@ -10,7 +10,9 @@ ROADMAP
 1.0.0
 -----
 
-- Basic project, ticket and status type.
+- Basic project, ticket, comment and status type.
+- Basic reporting (Simple time estimated, time taken)
+- Basic file handling
 - Basic user and permissions system
 - Private only projects
 - Basic responsive (Bootstrap)
@@ -19,6 +21,7 @@ ROADMAP
 -----
 
 - Public/Private projects
+- Wiki style documentation
 - Improved User groups
 - Fully responsive (Bootstrap or otherwise)
 

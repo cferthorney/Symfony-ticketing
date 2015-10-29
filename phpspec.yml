@@ -1,0 +1,4 @@
+suites:
+  default:
+    namespace: Cferthorney\TicketBundle
+    spec_path: %paths.config%/src/TicketBundle/Tests

@@ -72,3 +72,11 @@ php_opcache_enabled_in_ini: true
 php_opcache_memory_consumption: "192"
 php_opcache_max_accelerated_files: 4096
 php_timezone: "Europe/London"
+
+# Xdebug
+php_xdebug_remote_enable: true
+php_xdebug_remote_connect_back: true
+php_xdebug_remote_host: "192.168.33.12"
+php_xdebug_remote_port: "9000"
+php_xdebug_idekey: "phpstorm.xdebug"
+php_xdebug_max_nesting_level: 250

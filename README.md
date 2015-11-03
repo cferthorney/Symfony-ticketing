@@ -8,7 +8,7 @@ See CHANGELOG.md for details on versions.
 Installation
 -----------
 
-Although optional ff you wish to use vagrant and use the provided ansible
+Although optional if you wish to use vagrant and use the provided ansible
 playbook, please ensure that vagrant is installed, ideally with the
 vagrant-hostsupdater plugin.  You will also require ansible is installed and
 that you have run:

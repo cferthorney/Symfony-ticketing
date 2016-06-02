@@ -53,7 +53,7 @@ class Tickets
     /**
      * @var boolean
      *
-     * @ORM\Column(name="deleted", type="boolean", options={"default"="false"})
+     * @ORM\Column(name="deleted", type="boolean", options={"default"=false})
      */
     private $deleted;
 

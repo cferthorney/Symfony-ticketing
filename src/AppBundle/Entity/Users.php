@@ -54,14 +54,14 @@ class Users
     /**
      * @var boolean
      *
-     * @ORM\Column(name="active", type="boolean", options={"default"="true"})
+     * @ORM\Column(name="active", type="boolean", options={"default"=true})
      */
     private $active;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="deleted", type="boolean", options={"default"="false"})
+     * @ORM\Column(name="deleted", type="boolean", options={"default"=false})
      */
     private $deleted;
 

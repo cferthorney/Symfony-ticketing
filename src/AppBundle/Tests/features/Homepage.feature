@@ -4,4 +4,4 @@ Feature:
 
   Scenario: Root Test
     When I am on the homepage
-    Then I should see "Symfony 2.7"
+    Then I should see "Symfony 3.0"

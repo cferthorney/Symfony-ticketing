@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Cferthorney\TicketBundle\Controller;
+namespace spec\AppBundle\Controller;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -9,6 +9,6 @@ class DefaultControllerSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Cferthorney\TicketBundle\Controller\DefaultController');
+        $this->shouldHaveType('AppBundle\Controller\DefaultController');
     }
 }

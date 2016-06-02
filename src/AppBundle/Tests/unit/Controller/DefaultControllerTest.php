@@ -1,6 +1,6 @@
 <?php
 
-namespace Cferthorney\TicketBundle\Tests\PHPUnit\Controller;
+namespace Tests\AppBundle\unit\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

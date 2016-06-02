@@ -1,6 +1,15 @@
 CHANGELOG
 =========
 
+0.0.6
+------
+
+Tie in Zurb foundation theme and front end.  Based off 
+```
+    foundation new
+```
+and adjustment for twig.
+
 0.0.5
 ------
 

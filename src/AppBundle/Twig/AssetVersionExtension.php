@@ -29,7 +29,7 @@ class AssetVersionExtension extends \Twig_Extension
      */
     public function getAssetVersion($filename)
     {
-        $manifestPath = $this->appDir.'/Resources/assets/rev-manifest.json';
+        $manifestPath = $this->appDir.'/Resources/manifests/rev-manifest.json';
         if (!file_exists($manifestPath)) {
             throw new \FileNotFoundException(sprintf('Cannot find manifest file: "%s"', $manifestPath));
         }

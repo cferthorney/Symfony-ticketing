@@ -127,6 +127,8 @@ gulp.task('scripts', function () {
 
     pipeline.add([
         config.bowerDirectory + '/jquery/dist/jquery.js',
+        config.bowerDirectory + '/what-input/what-input.js',
+        config.bowerDirectory + '/foundation-sites/dist/foundation.js',
         config.resourcesDir + '/' + config.scriptDir
     ], 'main.js');
 
@@ -138,6 +140,6 @@ gulp.task('watch', function () {
     gulp.watch([config.resourcesDir + '/' + config.scriptDir],['scripts']);
 });
 
-gulp.task('default', ['styles', 'scripts', 'fonts', 'watch'], function () {
+gulp.task('default', ['clean', 'styles', 'scripts', 'fonts', 'images', 'watch'], function () {
 
 });

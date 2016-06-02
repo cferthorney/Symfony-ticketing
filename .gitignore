@@ -14,3 +14,10 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+
+#Foundation / Frontend
+.DS_Store
+/bower_components
+/node_modules
+npm-debug.log
+/app/Resources/public

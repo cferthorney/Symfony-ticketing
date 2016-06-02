@@ -24,5 +24,6 @@ web/*
 !web/*.php
 !web/*.png
 !web/favicon.ico
-
+app/Resources/manifests/*
+!app/Resources/manifests/.gitkeep
 

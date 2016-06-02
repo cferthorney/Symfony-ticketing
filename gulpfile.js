@@ -31,8 +31,13 @@ app.addStyle = function (paths, outputFilename) {
         .pipe($.autoprefixer({
             browsers: ['last 2 versions', 'ie >= 9']
         }))
+        .pipe($.rev())
         .pipe($.if(config.sourcemaps, $.sourcemaps.write('.')))
-        .pipe(gulp.dest('web/css'));
+        .pipe(gulp.dest('web'))
+        .pipe($.rev.manifest('app/Resources/manifests/rev-manifest.json', {
+            merge: true
+        }))
+        .pipe(gulp.dest('.'))
 }
 
 app.addScript = function (paths, outputFilename) {
@@ -41,8 +46,13 @@ app.addScript = function (paths, outputFilename) {
         .pipe($.if(config.sourcemaps, $.sourcemaps.init()))
         .pipe($.concat(outputFilename))
         .pipe($.if(config.production, $.uglify()))
+        .pipe($.rev())
         .pipe($.if(config.sourcemaps, $.sourcemaps.write('.')))
-        .pipe(gulp.dest('web/js'));
+        .pipe(gulp.dest('web'))
+        .pipe($.rev.manifest('app/Resources/manifests/rev-manifest.json', {
+            merge: true
+        }))
+        .pipe(gulp.dest('.'))
 }
 
 app.copy = function (sourceFiles, outputDir) {
@@ -56,25 +66,25 @@ gulp.task('fonts', function() {
         config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.svg',
         config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.ttf',
         config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.woff'
-    ],'web/fonts');
+    ],'web/fonts')
 });
 
 gulp.task('images', function() {
-   app.copy([config.resourcesDir], 'web/img');
+   app.copy([config.resourcesDir], 'web/img')
 });
 
 gulp.task('styles', function () {
     app.addStyle([
         config.resourcesDir + '/' + config.sassDir,
         config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.css'
-    ], 'main.css');
+    ], 'css/main.css')
 });
 
 gulp.task('scripts', function () {
     app.addScript([
         config.bowerDirectory + '/jquery/dist/jquery.js',
         config.resourcesDir + '/' + config.scriptDir
-    ], 'main.js');
+    ], 'js/main.js')
 });
 
 gulp.task('watch', function () {

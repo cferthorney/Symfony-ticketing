@@ -1,4 +1,0 @@
-suites:
-  default:
-    namespace: AppBundle
-    spec_path: "%paths.config%/src/AppBundle/Tests"

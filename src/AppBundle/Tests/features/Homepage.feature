@@ -4,4 +4,4 @@ Feature:
 
   Scenario: Root Test
     When I am on the homepage
-    Then I should see "Symfony 3.0"
+    Then I should see "Welcome to Symfony"

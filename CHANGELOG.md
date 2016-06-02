@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.0.4
+------
+
+"Basic" table structure
+
 0.0.3
 ------
 

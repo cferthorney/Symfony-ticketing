@@ -20,4 +20,9 @@
 /bower_components
 /node_modules
 npm-debug.log
-web/css
+web/*
+!web/*.php
+!web/*.png
+!web/favicon.ico
+
+

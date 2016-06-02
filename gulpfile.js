@@ -1,44 +1,87 @@
 var gulp = require('gulp');
-var $    = require('gulp-load-plugins')();
+var $ = require('gulp-load-plugins')();
 
 var sassPaths = [
-  'bower_components/foundation-sites/scss',
-  'bower_components/motion-ui/src'
+    'bower_components/foundation-sites/scss',
+    'bower_components/motion-ui/src'
 ];
 
 var config = {
-  resourcesDir: 'app/Resources',
-  sassDir: 'scss/**/*.scss',
-  scriptDir: 'js/**',
-  production: !!$.util.env.production,
-  sourcemaps: !$.util.env.production
+    bowerDirectory: 'bower_components',
+    resourcesDir: 'app/Resources',
+    imgDir: 'img',
+    sassDir: 'scss/**/*.scss',
+    scriptDir: 'js/**/*.js',
+    production: !!$.util.env.production,
+    sourcemaps: !$.util.env.production
 };
 
 var app = {};
 
 app.addStyle = function (paths, outputFilename) {
-  return gulp.src(paths)
-      .pipe($.plumber())
-      .pipe($.if(config.sourcemaps, $.sourcemaps.init()))
-      .pipe($.sass({
-        includePaths: sassPaths
-      })
-          .on('error', $.sass.logError))
-      .pipe($.concat(outputFilename))
-      .pipe($.if(config.production, $.cleanCss()))
-      .pipe($.autoprefixer({
-        browsers: ['last 2 versions', 'ie >= 9']
-      }))
-      .pipe($.if(config.sourcemaps, $.sourcemaps.write('.')))
-      .pipe(gulp.dest('web/css'));
+    return gulp.src(paths)
+        .pipe($.plumber())
+        .pipe($.if(config.sourcemaps, $.sourcemaps.init()))
+        .pipe($.sass({
+            includePaths: sassPaths
+        })
+            .on('error', $.sass.logError))
+        .pipe($.concat(outputFilename))
+        .pipe($.if(config.production, $.cleanCss()))
+        .pipe($.autoprefixer({
+            browsers: ['last 2 versions', 'ie >= 9']
+        }))
+        .pipe($.if(config.sourcemaps, $.sourcemaps.write('.')))
+        .pipe(gulp.dest('web/css'));
 }
 
-gulp.task('sass', function() {
-  app.addStyle([
-    config.resourcesDir + '/' + config.sassDir
+app.addScript = function (paths, outputFilename) {
+    return gulp.src(paths)
+        .pipe($.plumber())
+        .pipe($.if(config.sourcemaps, $.sourcemaps.init()))
+        .pipe($.concat(outputFilename))
+        .pipe($.if(config.production, $.uglify()))
+        .pipe($.if(config.sourcemaps, $.sourcemaps.write('.')))
+        .pipe(gulp.dest('web/js'));
+}
+
+app.copy = function (sourceFiles, outputDir) {
+    gulp.src(sourceFiles)
+        .pipe(gulp.dest(outputDir));
+}
+
+gulp.task('fonts', function() {
+    app.copy([
+        config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.eot',
+        config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.svg',
+        config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.ttf',
+        config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.woff'
+    ],'web/fonts');
+});
+
+gulp.task('images', function() {
+   app.copy([config.resourcesDir], 'web/img');
+});
+
+gulp.task('styles', function () {
+    app.addStyle([
+        config.resourcesDir + '/' + config.sassDir,
+        config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.css'
     ], 'main.css');
 });
 
-gulp.task('default', ['sass'], function() {
-  gulp.watch([config.resourcesDir + '/' + config.sassDir], ['sass']);
+gulp.task('scripts', function () {
+    app.addScript([
+        config.bowerDirectory + '/jquery/dist/jquery.js',
+        config.resourcesDir + '/' + config.scriptDir
+    ], 'main.js');
+});
+
+gulp.task('watch', function () {
+    gulp.watch([config.resourcesDir + '/' + config.sassDir], ['styles']);
+    gulp.watch([config.resourcesDir + '/' + config.scriptDir],['scripts']);
+});
+
+gulp.task('default', ['styles', 'scripts', 'fonts', 'watch'], function () {
+
 });

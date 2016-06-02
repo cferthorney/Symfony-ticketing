@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
+var del = require('del');
 
 var sassPaths = [
     'bower_components/foundation-sites/scss',
@@ -12,6 +13,7 @@ var config = {
     imgDir: 'img',
     sassDir: 'scss/**/*.scss',
     scriptDir: 'js/**/*.js',
+    manifestPath: 'app/Resources/manifests/rev-manifest.json',
     production: !!$.util.env.production,
     sourcemaps: !$.util.env.production
 };
@@ -26,7 +28,7 @@ app.addStyle = function (paths, outputFilename) {
             includePaths: sassPaths
         })
             .on('error', $.sass.logError))
-        .pipe($.concat(outputFilename))
+        .pipe($.concat('css/' + outputFilename))
         .pipe($.if(config.production, $.cleanCss()))
         .pipe($.autoprefixer({
             browsers: ['last 2 versions', 'ie >= 9']
@@ -34,7 +36,7 @@ app.addStyle = function (paths, outputFilename) {
         .pipe($.rev())
         .pipe($.if(config.sourcemaps, $.sourcemaps.write('.')))
         .pipe(gulp.dest('web'))
-        .pipe($.rev.manifest('app/Resources/manifests/rev-manifest.json', {
+        .pipe($.rev.manifest(config.manifestPath, {
             merge: true
         }))
         .pipe(gulp.dest('.'))
@@ -44,12 +46,12 @@ app.addScript = function (paths, outputFilename) {
     return gulp.src(paths)
         .pipe($.plumber())
         .pipe($.if(config.sourcemaps, $.sourcemaps.init()))
-        .pipe($.concat(outputFilename))
+        .pipe($.concat('js/' + outputFilename))
         .pipe($.if(config.production, $.uglify()))
         .pipe($.rev())
         .pipe($.if(config.sourcemaps, $.sourcemaps.write('.')))
         .pipe(gulp.dest('web'))
-        .pipe($.rev.manifest('app/Resources/manifests/rev-manifest.json', {
+        .pipe($.rev.manifest(config.manifestPath, {
             merge: true
         }))
         .pipe(gulp.dest('.'))
@@ -59,6 +61,14 @@ app.copy = function (sourceFiles, outputDir) {
     gulp.src(sourceFiles)
         .pipe(gulp.dest(outputDir));
 }
+
+gulp.task('clean', function() {
+   del.sync(config.manifestPath);
+   del.sync('web/css/*');
+   del.sync('web/fonts/*');
+   del.sync('web/js/*');
+
+});
 
 gulp.task('fonts', function() {
     app.copy([
@@ -77,14 +87,14 @@ gulp.task('styles', function () {
     app.addStyle([
         config.resourcesDir + '/' + config.sassDir,
         config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.css'
-    ], 'css/main.css')
+    ], 'main.css')
 });
 
 gulp.task('scripts', function () {
     app.addScript([
         config.bowerDirectory + '/jquery/dist/jquery.js',
         config.resourcesDir + '/' + config.scriptDir
-    ], 'js/main.js')
+    ], 'main.js')
 });
 
 gulp.task('watch', function () {

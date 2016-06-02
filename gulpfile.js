@@ -1,6 +1,34 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
+var Q = require('q');
+
+var Pipeline = function() {
+    this.entries = [];
+};
+Pipeline.prototype.add = function() {
+    this.entries.push(arguments);
+};
+Pipeline.prototype.run = function(callable) {
+    var deferred = Q.defer();
+    var i = 0;
+    var entries = this.entries;
+    var runNextEntry = function() {
+        // see if we're all done looping
+        if (typeof entries[i] === 'undefined') {
+            deferred.resolve();
+            return;
+        }
+        // pass app as this, though we should avoid using "this"
+        // in those functions anyways
+        callable.apply(app, entries[i]).on('end', function() {
+            i++;
+            runNextEntry();
+        });
+    };
+    runNextEntry();
+    return deferred.promise;
+};
 
 var sassPaths = [
     'bower_components/foundation-sites/scss',
@@ -58,7 +86,7 @@ app.addScript = function (paths, outputFilename) {
 }
 
 app.copy = function (sourceFiles, outputDir) {
-    gulp.src(sourceFiles)
+    return gulp.src(sourceFiles)
         .pipe(gulp.dest(outputDir));
 }
 
@@ -71,7 +99,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('fonts', function() {
-    app.copy([
+   return app.copy([
         config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.eot',
         config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.svg',
         config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.ttf',
@@ -80,21 +108,29 @@ gulp.task('fonts', function() {
 });
 
 gulp.task('images', function() {
-   app.copy([config.resourcesDir], 'web/img')
+   return app.copy([config.resourcesDir], 'web/img')
 });
 
 gulp.task('styles', function () {
-    app.addStyle([
+    var pipeline = new Pipeline();
+
+    pipeline.add([
         config.resourcesDir + '/' + config.sassDir,
         config.bowerDirectory + '/foundation-icon-fonts/foundation-icons.css'
-    ], 'main.css')
+    ], 'main.css');
+
+    return pipeline.run(app.addStyle);
 });
 
 gulp.task('scripts', function () {
-    app.addScript([
+    var pipeline = new Pipeline();
+
+    pipeline.add([
         config.bowerDirectory + '/jquery/dist/jquery.js',
         config.resourcesDir + '/' + config.scriptDir
-    ], 'main.js')
+    ], 'main.js');
+
+    return pipeline.run(app.addScript);
 });
 
 gulp.task('watch', function () {

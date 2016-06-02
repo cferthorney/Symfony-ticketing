@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.0.5
+------
+
+Basic frontend setup, using Zurb Foundation and Gulp.  [Gulp tutorials followed](https://knpuniversity.com/screencast/gulp) from [KNP University](https://knpuniversity.com)
+
 0.0.4
 ------
 

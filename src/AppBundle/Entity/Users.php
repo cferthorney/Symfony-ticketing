@@ -4,7 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event;
-
+use Symfony\Component\Security\Core\Role\Role;
+use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Users
  *
@@ -12,7 +13,7 @@ use Doctrine\ORM\Event;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UsersRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Users
+class Users implements UserInterface
 {
     /**
      * @var integer
@@ -325,6 +326,20 @@ class Users
         if ($this->getCreatedAt() == null) {
             $this->setCreatedAt(new \DateTime('now'));
         }
+    }
+
+    public function getRoles() 
+    {
+        return ['USER_ROLE'];
+    }
+
+    public function getSalt()
+    {
+        // leaving blank for now
+    }
+    public function eraseCredentials()
+    {
+        // leaving blank for now
     }
 
 }
